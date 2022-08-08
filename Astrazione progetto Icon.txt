@@ -1,0 +1,104 @@
+Astrazione evento
+ numero persone in pericolo
+	- numero feriti
+		0: 0 
+		1: 1-3
+		2: 4-7 
+		3: 8-12
+		4: 13+
+
+ tipi di incidente
+	- esplosioni: {0,1}
+	- incendi: {0,1}
+	- soccorsi: {0,1}
+	- calamità naturali: {0,1}
+	- incidente stradale: {0,1}
+____________________________________________________________
+
+ caserma dei pompieri
+	nome caserma
+	numero agenti
+	numero veicoli
+	numero veicoli speciali
+____________________________________________________________
+
+ classificazione evento
+	grado 1
+		numero agenti 2
+		numero veicoli 1
+		numero veicoli speciali 0
+		tempo da decidere
+	grado 2
+		numero agenti 5
+		numero veicoli 2
+		numero veicoli speciali 0
+		tempo da decidere
+	grado 3
+		numero agenti 10
+		numero veicoli 3
+		numero veicoli speciali 1
+		tempo da decidere
+	grado 4
+		numero agenti 10
+		numero veicoli 2
+		numero veicoli speciali 3
+		tempo da decidere
+	grado 5
+		numero agenti 20
+		numero veicoli 5
+		numero veicoli speciali 5
+		tempo da decidere
+____________________________________________________________
+
+DATASET
+
+
+	num_fer  soccorsi  incendi  esplosioni  incidenti_stradali  calam_natur  grado
+	   0,       1,        0,         0,            0,                0,        1
+           0,       0,        1,         0,            0,                0,        1
+           0,       0,        0,         1,            0,		 0,        1
+           1,       1,        0,         0,            1,                0,        1
+	   0,       0,        1,         0,            1,                0,        1
+	   0,       0,        0,         1,            1,                0,        1
+           0,       0,        0,         0,            1,                0,        1
+           0,       1,        0,         0,            0,                0,        1
+           0,       0,        1,         1,            0,                0,        1
+           1,       1,        0,         0,            0,                0,        1
+	
+	   2,       1,        1,         0,            0,                0,        2
+	   1,       1,        1,         0,            0,                0,        2
+	   1,       1,        1,         0,            1,                0,        2
+	   1,       1,        0,         1,            1,                0,        2
+           2,       1,        0,         1,            0,                0,        2
+           2,       1,        0,         0,            1,                0,        2
+           0,       0,        1,         1,            1,                0,        2
+           3,       1,        1,         0,            0,                0,        2 
+           3,       1,        0,         1,            1,                0,        2        
+           2,       1,        0,         1,            0,                0,        2
+
+
+           2,       1,        1,         1,            0,                0,        3
+           3,       1,        1,         0,            1,                0,        3
+           3,       1,        0,         1,            0,                0,        3
+           3,       1,        1,         1,            1,                0,        3
+           2,       1,        0,         1,            1,                0,        3
+           3,       1,        0,         0,            0,                0,        3
+           3,       1,        1,         0,            0,                0,        3 
+           3,       1,        0,         1,            0,                0,        3
+           3,       1,        0,         0,            1,                0,        3
+           4,       1,        1,         0,            0,                0,        3          
+	   
+	   0,       0,        0,         0,            0,                1,        4
+	   0,       0,        1,         0,            0,                1,        4
+	   0,       0,        0,         1,            0,                1,        4
+	   4,       1,        1,         0,            0,                1,        4
+	   3,       1,        1,         0,            0,                1,        4
+	   3,       1,        0,         1,            0,                1,        4
+	   4,       1,        1,         1,            0,                1,        4
+	   4,       1,        0,         1,            1,                1,        4
+	   4,       1,        1,         1,            1,                1,        4
+           
+
+
+
+        
