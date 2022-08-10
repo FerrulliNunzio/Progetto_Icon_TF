@@ -1,4 +1,4 @@
-from Graph.Node import Node
+from Map.Node import Node
 
 class Graph:
     def __init__(self):
