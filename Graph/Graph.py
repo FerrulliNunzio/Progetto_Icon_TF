@@ -1,39 +1,4 @@
-class Node:
-    totalDistanceValue: int = 0
-    realDistanceValue: int = 0
-    heuristicDistanceValue: int = 0
-
-    def __init__(self, value, x, y):
-        self.parent = None
-        self.value = value
-        self.x = x
-        self.y = y
-
-    def set_parent(self, parentNode):
-        self.parent = parentNode
-
-    def set_real_distance_value(self, distance_value):
-        self.realDistanceValue = distance_value
-        self.set_total_distance_value()
-
-    def set_heuristic_distance_value(self, distance_value):
-        self.heuristicDistanceValue = distance_value
-        self.set_total_distance_value()
-
-    def set_total_distance_value(self):
-        self.totalDistanceValue = self.realDistanceValue + self.heuristicDistanceValue
-
-    def get_x(self):
-        return self.x
-
-    def get_y(self):
-        return self.y
-
-    def is_same(self, node):
-        return self.value == node.value
-
-    def __str__(self):
-        return str(self.value)
+from Graph.Node import Node
 
 class Graph:
     def __init__(self):
@@ -43,21 +8,27 @@ class Graph:
     def add_node(self, node):
         self.node.append(node)
 
+    def __oriented_graph_connection(self, node1, node2, weight):
+        if node1 in self.connections:
+            all_nodes = self.connections.get(node1)
+            all_nodes[node2] = weight
+        else:
+            self.connections[node1] = {node2: weight}
+
+    def __undirected_graph_connection(self, node1, node2, weight):
+        if node2 in self.connections:
+            all_nodes = self.connections.get(node2)
+            all_nodes[node1] = weight
+        else:
+            self.connections[node2] = {node1: weight}
+
     def connect(self, node1, node2, weight):
         if type(weight).__name__ != "int" and type(weight).__name__ != "float":
             raise Exception("Peso non valido".format(type(weight).__name__))
         if node1 in self.node and node2 in self.node:
-            if node1 in self.connections:
-                all_nodes = self.connections.get(node1)
-                all_nodes[node2] = weight
-            else:
-                self.connections[node1] = {node2: weight}
+            self.oriented_graph_connection(node1, node2, weight)
             # Utile solo se il grafo non è orientato--------------------
-            if node2 in self.connections:
-                all_nodes = self.connections.get(node2)
-                all_nodes[node1] = weight
-            else:
-                self.connections[node2] = {node1: weight}
+            self.undirected_graph_connection(node1, node2, weight)
             # -----------------------------------------------------------
         else:
             raise Exception("L'arco non è valido".format(node1, node2))
@@ -75,11 +46,10 @@ class Graph:
     def connection(self, node):
         connection_result = []
         if node in self.connections:
-            for connection_node in self.connections.get(node):
-                connection_result.append(connection_node)
-            return connection_result
-        else:
-            return connection_result
+            for connection_nodes in self.connections.get(node):
+                connection_result.append(connection_nodes)
+
+        return connection_result
 
     def nodes(self):
         return self.node
@@ -92,7 +62,7 @@ class Graph:
         return abs(node1.get_x() - node2.get_x()) + abs(node1.get_y() - node2.get_y())
 
     def min_search(self, list: list()):
-        min: Node("", 100, 100)
+        min = Node("", 100, 100)
         min.set_real_distance_value(9999)
         min.set_heuristic_distance_value(9999)
 
