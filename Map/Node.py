@@ -2,14 +2,15 @@ class Node:
     totalDistanceValue: int = 0
     realDistanceValue: int = 0
     heuristicDistanceValue: int = 0
+
     def __init__(self, value, x, y):
         self.parent = None
         self.value = value
         self.x = x
         self.y = y
 
-    def set_parent(self, parentNode):
-        self.parent = parentNode
+    def set_parent(self, parent_node):
+        self.parent = parent_node
 
     def set_real_distance_value(self, distance_value):
         self.realDistanceValue = distance_value
