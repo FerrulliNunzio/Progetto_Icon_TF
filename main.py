@@ -2,6 +2,8 @@ import random as random
 from pyswip import Prolog
 import Intervation
 from Classifier import classify
+from Map.Graph import Graph
+from Map.Node import Node
 
 def createKB():
     kb = Prolog()
@@ -21,6 +23,98 @@ def createKB():
     kb.assertz("veicoli_speciali(caserma_3, 5)")
 
     return kb
+
+def createMap():
+    map= Graph()
+
+    #Dichiaro tutti i nodi
+    A = Node("1", 2, 0)
+    B = Node("2", 2, 7)
+    C = Node("3", 3, 2)
+    D = Node("4", 3, 4)
+    E = Node("5", 5, 1)
+    F = Node("6", 3, 3)
+    G = Node("7", 2, 2)
+    H = Node("8", 2, 2)
+    I = Node("9", 2, 1)
+    J = Node("10", 4, 3)
+    L = Node("11", 3, 3)
+    M = Node("12", 4, 4)
+    N = Node("13", 4, 3)
+    O = Node("14", 6, 5)
+    P = Node("15", 2, 2)
+    Q = Node("16", 4, 6)
+    R = Node("17", 1, 4)
+    S = Node("18", 2, 1)
+    T = Node("19", 1, 1)
+    U = Node("20", 2, 1)
+
+    # Caserme
+    Cas1 = Node("Caserma 1", 2, 4)
+    Cas2 = Node("Caserma 2", 2, 1)
+    Cas3 = Node("Caserma 3", 2, 2)
+
+    # Aggiungo i nodi alla
+    map.addnode(A)
+    map.addnode(B)
+    map.addnode(C)
+    map.addnode(D)
+    map.addnode(E)
+    map.addnode(F)
+    map.addnode(G)
+    map.addnode(H)
+    map.addnode(I)
+    map.addnode(J)
+    map.addnode(L)
+    map.addnode(M)
+    map.addnode(N)
+    map.addnode(O)
+    map.addnode(P)
+    map.addnode(Q)
+    map.addnode(R)
+    map.addnode(S)
+    map.addnode(T)
+    map.addnode(U)
+    map.addnode(Cas1)
+    map.addnode(Cas2)
+    map.addnode(Cas3)
+
+    #aggiungo gli archi
+    map.connect(A, B, 9)
+    map.connect(A, C, 4)
+    map.connect(A, D, 8)
+    map.connect(B, O, 13)
+    map.connect(B, S, 9)
+    map.connect(B, C, 4)
+    map.connect(C, E, 4)
+    map.connect(C, F, 6)
+    map.connect(D, T, 5)
+    map.connect(D, N, 6)
+    map.connect(E, J, 8)
+    map.connect(E, F, 8)
+    map.connect(F, H, 5)
+    map.connect(F, T, 4)
+    map.connect(G, T, 3)
+    map.connect(G, N, 6)
+    map.connect(G, L, 5)
+    map.connect(H, L, 5)
+    map.connect(H, Cas3, 4)
+    map.connect(I, S, 3)
+    map.connect(I, O, 7)
+    map.connect(I, J, 5)
+    map.connect(J, P, 5)
+    map.connect(J, M, 7)
+    map.connect(L, M, 7)
+    map.connect(M, U, 6)
+    map.connect(N, Cas2, 5)
+    map.connect(O, Q, 9)
+    map.connect(P, Q, 6)
+    map.connect(P, R, 7)
+    map.connect(P, U, 4)
+    map.connect(Q, Cas1, 8)
+    map.connect(R, U, 6)
+
+    return map
 
 #attraverso la generazione di numeri casuali questa funzione crea un incidente
 def createIncident():
