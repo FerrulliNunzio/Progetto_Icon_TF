@@ -13,6 +13,7 @@ def importdata(dataset):
 def set_training(balance_data, test):
     X = balance_data.values[:, 0:6]
     Y = balance_data.values[:, 6]
+
     X_train, X_test, y_train, y_test = train_test_split(
         X, Y, test_size=0.000001, random_state=0)
 

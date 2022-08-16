@@ -1,6 +1,6 @@
 import random as random
-from pyswip import Prolog
-import Intervation
+from pyswip import *
+from Intervation import Intervation
 from Classifier import classify
 from Map.Graph import Graph
 from Map.Node import Node
@@ -10,16 +10,16 @@ def createKB():
     for i in range(3):
         kb.assertz("caserma(caserma_" + str(i+1) + ")")
 
-    kb.assertz("agenti(caserma_1, 7)")
-    kb.assertz("agenti(caserma_2, 15)")
-    kb.assertz("agenti(caserma_3, 22)")
+    kb.assertz("agenti(caserma_1, 5)")
+    kb.assertz("agenti(caserma_2, 10)")
+    kb.assertz("agenti(caserma_3, 20)")
 
-    kb.assertz("veicoli(caserma_1, 2)")
-    kb.assertz("veicoli(caserma_2, 5)")
-    kb.assertz("veicoli(caserma_3, 8)")
+    kb.assertz("veicoli(caserma_1, 3)")
+    kb.assertz("veicoli(caserma_2, 7)")
+    kb.assertz("veicoli(caserma_3, 10)")
 
     kb.assertz("veicoli_speciali(caserma_1, 0)")
-    kb.assertz("veicoli_speciali(caserma_2, 3)")
+    kb.assertz("veicoli_speciali(caserma_2, 2)")
     kb.assertz("veicoli_speciali(caserma_3, 5)")
 
     return kb
@@ -28,56 +28,56 @@ def createMap():
     map= Graph()
 
     #Dichiaro tutti i nodi
-    A = Node("1", 2, 0)
-    B = Node("2", 2, 7)
-    C = Node("3", 3, 2)
-    D = Node("4", 3, 4)
-    E = Node("5", 5, 1)
-    F = Node("6", 3, 3)
-    G = Node("7", 2, 2)
-    H = Node("8", 2, 2)
-    I = Node("9", 2, 1)
-    J = Node("10", 4, 3)
-    L = Node("11", 3, 3)
-    M = Node("12", 4, 4)
-    N = Node("13", 4, 3)
-    O = Node("14", 6, 5)
-    P = Node("15", 2, 2)
-    Q = Node("16", 4, 6)
-    R = Node("17", 1, 4)
-    S = Node("18", 2, 1)
-    T = Node("19", 1, 1)
-    U = Node("20", 2, 1)
+    A = Node("1", "A", 2, 0)
+    B = Node("2", "B", 2, 7)
+    C = Node("3", "C", 3, 2)
+    D = Node("4", "D", 3, 4)
+    E = Node("5", "E", 5, 1)
+    F = Node("6", "F", 3, 3)
+    G = Node("7", "G", 2, 2)
+    H = Node("8", "H", 2, 2)
+    I = Node("9", "I", 2, 1)
+    J = Node("10", "J", 4, 3)
+    L = Node("11", "L", 3, 3)
+    M = Node("12", "M", 4, 4)
+    N = Node("13", "N", 4, 3)
+    O = Node("14", "O", 6, 5)
+    P = Node("15", "P", 2, 2)
+    Q = Node("16", "Q", 4, 6)
+    R = Node("17", "R", 1, 4)
+    S = Node("18", "S", 2, 1)
+    T = Node("19", "T", 1, 1)
+    U = Node("20", "U", 2, 1)
 
     # Caserme
-    Cas1 = Node("Caserma 1", 2, 4)
-    Cas2 = Node("Caserma 2", 2, 1)
-    Cas3 = Node("Caserma 3", 2, 2)
+    Cas1 = Node("Caserma 1", "Caserma 1", 2, 4)
+    Cas2 = Node("Caserma 2", "Caserma 2", 2, 1)
+    Cas3 = Node("Caserma 3", "Caserma 3", 2, 2)
 
     # Aggiungo i nodi alla
-    map.addnode(A)
-    map.addnode(B)
-    map.addnode(C)
-    map.addnode(D)
-    map.addnode(E)
-    map.addnode(F)
-    map.addnode(G)
-    map.addnode(H)
-    map.addnode(I)
-    map.addnode(J)
-    map.addnode(L)
-    map.addnode(M)
-    map.addnode(N)
-    map.addnode(O)
-    map.addnode(P)
-    map.addnode(Q)
-    map.addnode(R)
-    map.addnode(S)
-    map.addnode(T)
-    map.addnode(U)
-    map.addnode(Cas1)
-    map.addnode(Cas2)
-    map.addnode(Cas3)
+    map.add_node(A)
+    map.add_node(B)
+    map.add_node(C)
+    map.add_node(D)
+    map.add_node(E)
+    map.add_node(F)
+    map.add_node(G)
+    map.add_node(H)
+    map.add_node(I)
+    map.add_node(J)
+    map.add_node(L)
+    map.add_node(M)
+    map.add_node(N)
+    map.add_node(O)
+    map.add_node(P)
+    map.add_node(Q)
+    map.add_node(R)
+    map.add_node(S)
+    map.add_node(T)
+    map.add_node(U)
+    map.add_node(Cas1)
+    map.add_node(Cas2)
+    map.add_node(Cas3)
 
     #aggiungo gli archi
     map.connect(A, B, 9)
@@ -117,7 +117,7 @@ def createMap():
     return map
 
 #attraverso la generazione di numeri casuali questa funzione crea un incidente
-def createIncident():
+def createIncident(placeIncident: Node):
     xInput = [[]]
     incident = []
     incident.append(random.randint(0, 4))#indica il numero dei feriti
@@ -140,7 +140,7 @@ def createIncident():
     print(createStringToExplosion(incident.__getitem__(3)))
     print(createStringToCarAccident(incident.__getitem__(4)))
     print(createStringToNaturalDisaster(incident.__getitem__(5)))
-    #inserire la stampa che indica il posto in cui è stato generato l'incidente
+    print("L'incidente è avvenuto in " + placeIncident.name)
     print("-------------------------------------------------")
 
     xInput = [incident]
@@ -194,21 +194,44 @@ def createStringToNaturalDisaster(value : int):
     elif value == 1:
         return "-L'incidente è stato causato da una calamità naturale"
 
+def random_place(map: Graph):
+    return map.nodes()[random.randint(0, 19)]
+
+def determine_number_barracks(nameBarracks):
+    numBarack = 0
+    if nameBarracks == "caserma_1":
+        numBarack = -3
+    elif nameBarracks == "caserma_2":
+        numBarack = -2
+    elif nameBarracks == "caserma_3":
+        numBarack = -1
+
+    return numBarack
+
+def determine_barrack(nameBarrack, intervation: Intervation):
+    map.a_star(map.nodes()[determine_number_barracks(nameBarrack)], intervation.placeIntervention)
+
+    if intervation.placeIntervention.realDistanceValue > intervation.getTimeLimit():
+        print("La " + nameBarrack + " ha le truppe necessarie per eseguire l'intervento ma è troppo lontana dal punto")
+    else:
+        print("La " + nameBarrack + " soddisfa tutti i requiditi per eseguire l'intervento con tempo "
+              + str(intervation.placeIntervention.realDistanceValue))
 
 if __name__ == '__main__':
     #Generazione della mappa
-
+    map = createMap()
     #Generazione della KB
     kb = createKB()
     #Generazione dell'evento
-    event = createIncident()
+    placeIncident = random_place(map)
+    event = createIncident(placeIncident)
     #Addestramento del classificatote e classificazione incidente
     try:
-        prediction = classify(event,"DataSet.csv")
+        prediction = classify(event, "DataSet.csv")
     except FileNotFoundError:
-        prediction = classify(event,"Source/DataSet.csv")   #da cancellare o modificare
+        prediction = classify(event, "C:/Users/Utente/Desktop/Progetto_Icon_TF/DataSet.csv")   #da cancellare o modificare
     #Creazione dell'intervento in base alla classificazione dell'incidente
-    intervation = Intervation(prediction)
+    intervation = Intervation(prediction, placeIncident)
     print("-----------Interrogazione Base di conoscenza-----------")
     strQuery = "caserma(X), agenti(X,A), veicoli(X,B), veicoli_speciali(X,C), A>=" + str(
         intervation.getNumAgent()) + ", B>=" + str(intervation.getNumVeihcles()) + ", C>=" + str(
@@ -217,8 +240,9 @@ if __name__ == '__main__':
     print("-----------Visaulizzazione Risultati-----------")
     if len(result) > 0:
         print("Le caserme consigliate per intervenire sono: \n")
+
         for item in result:
-            print("-" + item["X"] + "\n")
+            determine_barrack(item["X"], intervation)
     else:
         print("Le caserme disponibili non hanno le risorse necessarie per riuscire a risolvere l'incidente da soli")
     print("-----------------------------------------------")

@@ -35,9 +35,10 @@ class Node:
         self.y
         
     '''
-    def __init__(self, value, x, y):
+    def __init__(self, value, name, x, y):
         self.parent = None
         self.value = value
+        self.name = name
         self.x = x
         self.y = y
 

@@ -108,9 +108,9 @@ class Graph:
         if type(weight).__name__ != "int" and type(weight).__name__ != "float":
             raise Exception("Peso non valido".format(type(weight).__name__))
         if node1 in self.node and node2 in self.node:
-            self.oriented_graph_connection(node1, node2, weight)
+            self.__oriented_graph_connection(node1, node2, weight)
             # Utile solo se il grafo non è orientato--------------------
-            self.undirected_graph_connection(node1, node2, weight)
+            self.__undirected_graph_connection(node1, node2, weight)
             # -----------------------------------------------------------
         else:
             raise Exception("L'arco non è valido".format(node1, node2))
@@ -130,7 +130,7 @@ class Graph:
 
     '''
     def path_weight(self, node1, node2):
-        if node1 in self.connection and node2 in self.connection:
+        if node1 in self.connections and node2 in self.connections:
             support_connection = self.connections.get(node1)
             if node2 in support_connection:
                 return support_connection.get(node2)
@@ -227,7 +227,7 @@ class Graph:
 
     '''
     def min_search(self, list: list()):
-        min = Node("", 100, 100)
+        min = Node("", "", 100, 100)
         min.set_real_distance_value(9999)
         min.set_heuristic_distance_value(9999)
 
