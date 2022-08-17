@@ -120,26 +120,21 @@ def createMap():
 def createIncident(placeIncident: Node):
     xInput = [[]]
     incident = []
-    incident.append(random.randint(0, 4))#indica il numero dei feriti
-    if incident.__getitem__(0) >= 1: #se ci sono dei feriti, ci sarà soccorso
-        incident.append(1)
-    else:
-        incident.append(random.randint(0, 1))
-    incident.append(random.randint(0, 1))#inidica se c'è un incendio oppure no
-    incident.append(random.randint(0, 1))#indica se c'è stata un esplosione oppure no
-    incident.append(random.randint(0, 1))#indica se c'è stato un incidente stradale opppure no
-    incident.append(random.randint(0, 1))#indica se c'è stata una calamità naturale oppure no
+    incident.append(random.randint(0, 3))#indica il numero dei feriti
+    incident.append(random.randint(0, 2))#inidica se c'è un incendio oppure no
+    incident.append(random.randint(0, 2))#indica se c'è stata un esplosione oppure no
+    incident.append(random.randint(0, 2))#indica se c'è stato un incidente stradale opppure no
+    incident.append(random.randint(0, 3))#indica se c'è stata una calamità naturale oppure no
     #inserire la funzione che sceglie un nodo casuale nel grafo
 
     print("---------------SEGNALATO INCIDENTE---------------")
     print("")
     print("DESCRIZIONE DELL'INCIDENTE:")
     print(createStringToWounded(incident.__getitem__(0)))
-    print(createStringToRescue(incident.__getitem__(1)))
-    print(createStringToFire(incident.__getitem__(2)))
-    print(createStringToExplosion(incident.__getitem__(3)))
-    print(createStringToCarAccident(incident.__getitem__(4)))
-    print(createStringToNaturalDisaster(incident.__getitem__(5)))
+    print(createStringToFire(incident.__getitem__(1)))
+    print(createStringToExplosion(incident.__getitem__(2)))
+    print(createStringToCarAccident(incident.__getitem__(3)))
+    print(createStringToNaturalDisaster(incident.__getitem__(4)))
     print("L'incidente è avvenuto in " + placeIncident.name)
     print("-------------------------------------------------")
 
@@ -153,46 +148,49 @@ def createStringToWounded(value : int):
     elif value == 1:
         return "-Ci sono da 1 a 3 persone ferite o in pericolo"
     elif value == 2:
-        return "-Ci sono da 4 a 7 persone ferite o in pericolo"
+        return "-Ci sono da 4 a 8 persone ferite o in pericolo"
     elif value == 3:
-        return "-Ci sono da 8 a 12 persone ferite o in pericolo"
-    elif value == 4:
-        return "-Ci sono 13 o più  persone ferite o in pericolo"
+        return "-Ci sono da 9 o più persone ferite o in pericolo"
 
-#descrive se è richiesto effetture un soccorso o non è necessario
-def createStringToRescue(value : int):
-    if value == 0:
-        return "-Non bisognerà effettuare dei soccorsi"
-    elif value == 1:
-        return "-Bisognerà effettuare dei soccorsi"
 
 #descrive se c'è un incendio
 def createStringToFire(value : int):
     if value == 0:
         return "-Non è stato rilevato nessun incendio nell'incidente"
     elif value == 1:
-        return "-E' stato rilevato un incendio nell'incidente"
+        return "-E' stato rilevato un incendio  di rischio basso nell'incidente"
+    elif value == 2:
+        return "-E' stato rilevato un incendio  di rischio medio o alto nell'incidente"
 
 #descrive se ci sono state delle esplosioni
 def createStringToExplosion(value : int):
     if value == 0:
         return "-Non ci sono state delle esplosioni nell'incidente"
     elif value == 1:
-        return "-Ci sono state delle esplosioni nell'incidente"
+        return "-Ci sono state delle esplosioni di grado 1 nell'incidente"
+    elif value == 2:
+        return "-Ci sono state delle esplosioni di grado 2 nell'incidente"
 
 #descrive se c'è stato un incidente stradale
 def createStringToCarAccident(value : int):
     if value == 0:
         return "-Non è avvenuto nessun incidente stradale"
     elif value == 1:
-        return "-C'è stato un incidente stradale"
+        return "-C'è stato un incidente stradale di una sola macchina"
+    elif value == 2:
+        return "-C'è stato un incidente stradale di più macchine"
+
 
 #descrive se c'è stato una calamità naturale
 def createStringToNaturalDisaster(value : int):
     if value == 0:
         return "-L'incidente non è stato causato da una calamità naturale"
     elif value == 1:
-        return "-L'incidente è stato causato da una calamità naturale"
+        return "-L'incidente è stato causato da una calamità naturale lieve"
+    elif value == 2:
+        return "-L'incidente è stato causato da una calamità naturale media"
+    elif value == 3:
+        return "-L'incidente è stato causato da una calamità naturale alta"
 
 def random_place(map: Graph):
     return map.nodes()[random.randint(0, 19)]
