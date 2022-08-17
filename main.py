@@ -116,16 +116,22 @@ def createMap():
 
     return map
 
+def randomIncident():
+    incident = []
+    incident.append(random.randint(0, 3))  # indica il numero dei feriti
+    incident.append(random.randint(0, 2))  # inidica se c'è un incendio
+    incident.append(random.randint(0, 2))  # indica se c'è stata un esplosione
+    incident.append(random.randint(0, 2))  # indica se c'è stato un incidente
+    incident.append(random.randint(0, 3))  # indica se c'è stata una calamità
+    return incident
+
 #attraverso la generazione di numeri casuali questa funzione crea un incidente
 def createIncident(placeIncident: Node):
     xInput = [[]]
     incident = []
-    incident.append(random.randint(0, 3))#indica il numero dei feriti
-    incident.append(random.randint(0, 2))#inidica se c'è un incendio oppure no
-    incident.append(random.randint(0, 2))#indica se c'è stata un esplosione oppure no
-    incident.append(random.randint(0, 2))#indica se c'è stato un incidente stradale opppure no
-    incident.append(random.randint(0, 3))#indica se c'è stata una calamità naturale oppure no
-    #inserire la funzione che sceglie un nodo casuale nel grafo
+    incident = randomIncident()
+    while checkIncident(incident):
+        incident = randomIncident()
 
     print("---------------SEGNALATO INCIDENTE---------------")
     print("")
@@ -140,6 +146,14 @@ def createIncident(placeIncident: Node):
 
     xInput = [incident]
     return xInput
+
+def checkIncident(incident):
+    flag = True
+    for elem in incident:
+        if elem != 0:
+            flag = False
+            return flag
+    return flag
 
 #descrive il numero dei feriti in base all'intero uscito
 def createStringToWounded(value : int):
