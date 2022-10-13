@@ -24,8 +24,8 @@ def set_training(balance_data, test):
 # addestro il classificatore usando come parametro di split l'entropia
 def train_using_entropy(X_train, y_train):
     clf_entropy = DecisionTreeClassifier(
-        criterion="entropy", random_state=100,
-        max_depth=3, min_samples_leaf=5)
+        criterion="entropy", random_state=0,
+        max_depth=4, max_features='sqrt')
     clf_entropy.fit(X_train, y_train)
     return clf_entropy
 
