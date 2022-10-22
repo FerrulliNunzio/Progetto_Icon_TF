@@ -1,9 +1,10 @@
 import random as random
+from collections import defaultdict
+
 from pyswip import *
 from Intervation import Intervation
 from Classifier import classify
-from Map.Graph import Graph
-from Map.Node import Node
+
 
 def createKB():
     kb = Prolog()
@@ -25,96 +26,25 @@ def createKB():
     return kb
 
 def createMap():
-    map= Graph()
-
-    #Dichiaro tutti i nodi
-    A = Node("1", "A", 2, 0)
-    B = Node("2", "B", 2, 7)
-    C = Node("3", "C", 3, 2)
-    D = Node("4", "D", 3, 4)
-    E = Node("5", "E", 5, 1)
-    F = Node("6", "F", 3, 3)
-    G = Node("7", "G", 2, 2)
-    H = Node("8", "H", 2, 2)
-    I = Node("9", "I", 2, 1)
-    J = Node("10", "J", 4, 3)
-    L = Node("11", "L", 3, 3)
-    M = Node("12", "M", 4, 4)
-    N = Node("13", "N", 4, 3)
-    O = Node("14", "O", 6, 5)
-    P = Node("15", "P", 2, 2)
-    Q = Node("16", "Q", 4, 6)
-    R = Node("17", "R", 1, 4)
-    S = Node("18", "S", 2, 1)
-    T = Node("19", "T", 1, 1)
-    U = Node("20", "U", 2, 1)
-
-    # Caserme
-    Cas1 = Node("Caserma 1", "Caserma 1", 2, 4)
-    Cas2 = Node("Caserma 2", "Caserma 2", 2, 1)
-    Cas3 = Node("Caserma 3", "Caserma 3", 2, 2)
-
-    # Aggiungo i nodi alla
-    map.add_node(A)
-    map.add_node(B)
-    map.add_node(C)
-    map.add_node(D)
-    map.add_node(E)
-    map.add_node(F)
-    map.add_node(G)
-    map.add_node(H)
-    map.add_node(I)
-    map.add_node(J)
-    map.add_node(L)
-    map.add_node(M)
-    map.add_node(N)
-    map.add_node(O)
-    map.add_node(P)
-    map.add_node(Q)
-    map.add_node(R)
-    map.add_node(S)
-    map.add_node(T)
-    map.add_node(U)
-    map.add_node(Cas1)
-    map.add_node(Cas2)
-    map.add_node(Cas3)
-
-    #aggiungo gli archi
-    map.connect(A, B, 9)
-    map.connect(A, C, 4)
-    map.connect(A, D, 8)
-    map.connect(B, O, 13)
-    map.connect(B, S, 9)
-    map.connect(B, C, 4)
-    map.connect(C, E, 4)
-    map.connect(C, F, 6)
-    map.connect(D, T, 5)
-    map.connect(D, N, 6)
-    map.connect(E, J, 8)
-    map.connect(E, F, 8)
-    map.connect(F, H, 5)
-    map.connect(F, T, 4)
-    map.connect(G, T, 3)
-    map.connect(G, N, 6)
-    map.connect(G, L, 5)
-    map.connect(H, L, 5)
-    map.connect(H, Cas3, 4)
-    map.connect(I, S, 3)
-    map.connect(I, O, 7)
-    map.connect(I, J, 5)
-    map.connect(J, P, 5)
-    map.connect(J, M, 7)
-    map.connect(L, M, 7)
-    map.connect(M, U, 6)
-    map.connect(N, Cas2, 5)
-    map.connect(O, Q, 9)
-    map.connect(P, Q, 6)
-    map.connect(P, R, 7)
-    map.connect(P, U, 4)
-    map.connect(Q, Cas1, 8)
-    map.connect(R, U, 6)
-
-    return map
+    weighted_edges =[['A', 'B', 9], ['A', 'D', 8], ['A', 'C', 4], ['B', 'A', 9], ['D', 'A', 8], ['C', 'A', 4],
+                     ['B', 'O', 13], ['B', 'C', 4],['O', 'B', 13], ['C', 'B', 4],
+                     ['C', 'E', 4], ['C', 'F', 6],['E', 'C', 4], ['F', 'C', 6],
+                     ['D', 'T', 5], ['D', 'N', 6],['T', 'D', 5], ['N', 'D', 6],
+                     ['E', 'F', 8], ['E', 'J', 8],['F', 'E', 8], ['J', 'E', 8],
+                     ['F', 'H', 5], ['F', 'T', 4], ['H', 'F', 5], ['T', 'F', 4],
+                     ['G', 'L', 5], ['G', 'T', 3], ['G', 'N', 6], ['L', 'G', 5], ['T', 'G', 3], ['N', 'G', 6],
+                     ['H', 'Cas3', 4], ['H', 'L', 5], ['Cas3', 'H', 4], ['L', 'H', 5],
+                     ['I', 'S', 3], ['I', 'J', 5], ['I', 'O', 7], ['S', 'I', 3], ['J', 'I', 5], ['O', 'I', 3],
+                     ['J', 'M', 7], ['J', 'P', 5], ['M', 'J', 7], ['P', 'J', 5],
+                     ['L', 'M', 7], ['M', 'L', 7],
+                     ['M', 'U', 6], ['U', 'M', 6],
+                     ['N', 'Cas2', 5], ['Cas2', 'N', 5],
+                     ['O', 'Q', 9], ['Q', 'O', 9],
+                     ['P', 'Q', 6], ['P', 'R', 7], ['P', 'U', 4], ['Q', 'P', 6], ['R', 'P', 7], ['U', 'P', 4],
+                     ['Q', 'Cas1', 8], ['Cas1', 'Q', 8],
+                     ['R', 'U', 6], ['U', 'R', 6],
+                     ['S', 'B', 9], ['B', 'S', 9]]
+    return weighted_edges
 
 def randomIncident():
     incident = []
@@ -126,7 +56,7 @@ def randomIncident():
     return incident
 
 #attraverso la generazione di numeri casuali questa funzione crea un incidente
-def createIncident(placeIncident: Node):
+def createIncident(placeIncident):
     xInput = [[]]
     incident = []
     incident = randomIncident()
@@ -141,7 +71,7 @@ def createIncident(placeIncident: Node):
     print(createStringToExplosion(incident.__getitem__(2)))
     print(createStringToCarAccident(incident.__getitem__(3)))
     print(createStringToNaturalDisaster(incident.__getitem__(4)))
-    print("L'incidente è avvenuto in " + placeIncident.name)
+    print("L'incidente è avvenuto in " + placeIncident)
     print("-------------------------------------------------")
 
     xInput = [incident]
@@ -206,36 +136,86 @@ def createStringToNaturalDisaster(value : int):
     elif value == 3:
         return "-L'incidente è stato causato da una calamità naturale alta"
 
-def random_place(map: Graph):
-    return map.nodes()[random.randint(0, 19)]
+def random_place(map):
+    queue = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+             'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U']
+
+    i = random.randint(0,19)
+    return queue[i]
 
 def determine_number_barracks(nameBarracks):
     numBarack = 0
     if nameBarracks == "caserma_1":
-        numBarack = -3
+        numBarack = 'Cas1'
     elif nameBarracks == "caserma_2":
-        numBarack = -2
+        numBarack = 'Cas2'
     elif nameBarracks == "caserma_3":
-        numBarack = -1
+        numBarack = 'Cas3'
 
     return numBarack
 
-def determine_barrack(nameBarrack, intervation: Intervation):
-    map.a_star(map.nodes()[determine_number_barracks(nameBarrack)], intervation.placeIntervention)
-
-    if intervation.placeIntervention.realDistanceValue > intervation.getTimeLimit():
+def determine_barrack(directed_weighted_graph, nameBarrack, intervation: Intervation):
+    distance = UCS(directed_weighted_graph, nameBarrack, intervation.placeIntervention)
+    if distance > intervation.getTimeLimit():
         print("La " + nameBarrack + " ha le truppe necessarie per eseguire l'intervento ma è troppo lontana dal punto")
     else:
         print("La " + nameBarrack + " soddisfa tutti i requiditi per eseguire l'intervento con tempo "
-              + str(intervation.placeIntervention.realDistanceValue))
+              + distance)
+
+def generateDirectedGraph(edges):
+    graph = defaultdict(dict)
+    for u, v, dist in edges:
+        graph[u][v] = dist
+    return graph
+
+
+def dijkstra(graph, start):
+    # The only criterium of adding a node to queue is if its distance has changed at the current step.
+    queue = [start]
+    minDistances = {v: float("inf") for v in graph}
+    minDistances[start] = 0
+    predecessor = {}
+
+    while queue:
+        currentNode = queue.pop(0)
+        for neighbor in graph[currentNode]:
+            # get potential newDist from start to neighbor
+            newDist = minDistances[currentNode] + graph[currentNode][neighbor]
+
+            # if the newDist is shorter to reach neighbor updated to newDist
+            if newDist < minDistances[neighbor]:
+                minDistances[neighbor] = min(newDist, minDistances[neighbor])
+                queue.append(neighbor)
+                predecessor[neighbor] = currentNode
+
+    return minDistances, predecessor
+
+
+# Unifrom Cost Search - shortest path between Source and Destination (Greedy)
+def UCS(graph, start, goal):
+    minDistances, predecessor = dijkstra(graph, start)
+
+    path = []
+    currentNode = goal
+    while currentNode != start:
+        if currentNode not in predecessor:
+            #Path not reachable
+            break
+        else:
+            path.insert(0, currentNode)
+            currentNode = predecessor[currentNode]
+    path.insert(0, start)
+
+    return minDistances[goal]
 
 if __name__ == '__main__':
     #Generazione della mappa
     map = createMap()
+    directed_weighted_graph = generateDirectedGraph(map)
     #Generazione della KB
     kb = createKB()
     #Generazione dell'evento
-    placeIncident = random_place(map)
+    placeIncident = random_place(directed_weighted_graph)
     event = createIncident(placeIncident)
     #Addestramento del classificatote e classificazione incidente
     try:
@@ -254,7 +234,7 @@ if __name__ == '__main__':
         print("Le caserme consigliate per intervenire sono: \n")
 
         for item in result:
-            determine_barrack(item["X"], intervation)
+            determine_barrack(directed_weighted_graph, item["X"], intervation)
     else:
         print("Le caserme disponibili non hanno le risorse necessarie per riuscire a risolvere l'incidente da soli")
     print("-----------------------------------------------")

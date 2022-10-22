@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeRegressor
 
 
 # carico il dataset con path passato come stringa
@@ -23,8 +23,8 @@ def set_training(balance_data, test):
 
 # addestro il classificatore usando come parametro di split l'entropia
 def train_using_entropy(X_train, y_train):
-    clf_entropy = DecisionTreeClassifier(
-        criterion="entropy", random_state=0,
+    clf_entropy = DecisionTreeRegressor(
+        criterion="friedman_mse", random_state=0,
         max_depth=4, max_features='sqrt')
     clf_entropy.fit(X_train, y_train)
     return clf_entropy

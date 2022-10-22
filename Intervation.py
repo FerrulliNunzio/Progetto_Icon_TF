@@ -7,9 +7,9 @@ class Intervation:
     numVehicles: int # numero di veicoli necessari
     numSpecialVehicles: int #numero di veicoli speciali necessari
     timeLimit: int # tempo massimo di attesa per l'intervento
-    placeIntervention: Node
+    placeIntervention = ''
 
-    def __init__(self, grade: int, node: Node):
+    def __init__(self, grade: int, node: str):
         self.grade = grade
         self.placeIntervention = node
         #in base al grado assegnato vengono avvalorati gli altri valori
