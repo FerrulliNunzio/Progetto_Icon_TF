@@ -34,7 +34,7 @@ def createMap():
                      ['F', 'H', 5], ['F', 'T', 4], ['H', 'F', 5], ['T', 'F', 4],
                      ['G', 'L', 5], ['G', 'T', 3], ['G', 'N', 6], ['L', 'G', 5], ['T', 'G', 3], ['N', 'G', 6],
                      ['H', 'Cas3', 4], ['H', 'L', 5], ['Cas3', 'H', 4], ['L', 'H', 5],
-                     ['I', 'S', 3], ['I', 'J', 5], ['I', 'O', 7], ['S', 'I', 3], ['J', 'I', 5], ['O', 'I', 3],
+                     ['I', 'S', 3], ['I', 'J', 5], ['I', 'O', 7], ['S', 'I', 3], ['J', 'I', 5], ['O', 'I', 7],
                      ['J', 'M', 7], ['J', 'P', 5], ['M', 'J', 7], ['P', 'J', 5],
                      ['L', 'M', 7], ['M', 'L', 7],
                      ['M', 'U', 6], ['U', 'M', 6],
@@ -155,17 +155,18 @@ def determine_number_barracks(nameBarracks):
     return numBarack
 
 def determine_barrack(directed_weighted_graph, nameBarrack, intervation: Intervation):
-    distance = UCS(directed_weighted_graph, nameBarrack, intervation.placeIntervention)
+    distance = UCS(directed_weighted_graph, determine_number_barracks(nameBarrack), intervation.placeIntervention)
     if distance > intervation.getTimeLimit():
         print("La " + nameBarrack + " ha le truppe necessarie per eseguire l'intervento ma è troppo lontana dal punto")
     else:
         print("La " + nameBarrack + " soddisfa tutti i requiditi per eseguire l'intervento con tempo "
-              + distance)
+              + str(distance))
 
 def generateDirectedGraph(edges):
     graph = defaultdict(dict)
     for u, v, dist in edges:
         graph[u][v] = dist
+
     return graph
 
 
@@ -238,3 +239,11 @@ if __name__ == '__main__':
     else:
         print("Le caserme disponibili non hanno le risorse necessarie per riuscire a risolvere l'incidente da soli")
     print("-----------------------------------------------")
+    '''map = createMap()
+    directed_weighted_graph = generateDirectedGraph(map)
+    print(directed_weighted_graph)
+    shortest_path_cost, predecessor = dijkstra(directed_weighted_graph, 'A')
+    print("shortest_path_cost from node a to every nodes in graph:", shortest_path_cost, "\npredecessor dictionary:",
+          predecessor)
+    distance = UCS(directed_weighted_graph, 'Cas1', 'I')
+    print(distance)'''

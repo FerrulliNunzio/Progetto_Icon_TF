@@ -40,4 +40,4 @@ def classify(test, dataset):
     X, Y, X_train, X_test, y_train, y_test = set_training(data, test)
     clf_entropy = train_using_entropy(X_train, y_train)
     y_pred = prediction(X_test, clf_entropy)
-    return y_pred
+    return int(y_pred)

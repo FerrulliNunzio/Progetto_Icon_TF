@@ -1,5 +1,4 @@
 #Qua va importato la map
-from Map.Node import Node
 
 class Intervation:
     grade: int #grado di urgenza dell'intervento
@@ -7,7 +6,7 @@ class Intervation:
     numVehicles: int # numero di veicoli necessari
     numSpecialVehicles: int #numero di veicoli speciali necessari
     timeLimit: int # tempo massimo di attesa per l'intervento
-    placeIntervention = ''
+    placeIntervention: str
 
     def __init__(self, grade: int, node: str):
         self.grade = grade
@@ -69,10 +68,10 @@ class Intervation:
 
 #descrive l'intervento in base ai vari valori degli attributi
     def __str__(self):
-        return "\n E' STATO RILEVATO UN INCIDENTE DI GRADO" + str(self.grade) + "\n\n" \
+        return "\n E' STATO RILEVATO UN INCIDENTE DI GRADO " + str(self.grade) + "\n\n" \
                 "Per risolvere l'incidente al meglio sarà necessario programmare un intervento che rispetti" \
                                                                                 " le seguenti condizioni\n" \
                 "-Tempo richiesto per l'intervento: <= " + str(self.timeLimit) + "min \n" \
                 "-Numero di agenti richiesto: >= " + str(self.numAgent) + "\n" \
                 "-Numero di veicoli necessari: >= " + str(self.numVehicles) + "\n" \
-                "-Numeto di veicoli speciali necessari: >= " + str(self.numSpecialVehicles)\
+                "-Numero di veicoli speciali necessari: >= " + str(self.numSpecialVehicles)\
