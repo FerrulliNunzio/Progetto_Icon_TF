@@ -85,4 +85,3 @@ veicoliSPNecessariCas3(X):-veicoliSPInCaserma(cas3,X).
 caserma1Giusta(X,Y,Z):-agentiNecessariCas1(X),veicoliNecessariCas1(Y),veicoliSPNecessariCas1(Z).
 caserma2Giusta(X,Y,Z):-agentiNecessariCas2(X),veicoliNecessariCas2(Y),veicoliSPNecessariCas2(Z).
 caserma3Giusta(X,Y,Z):-agentiNecessariCas3(X),veicoliNecessariCas3(Y),veicoliSPNecessariCas3(Z).
-casermaGiusta(Cas,NumA,NumV,NumvSp):-agentiInCaserma(Cas,NumA),veicoliInCaserma(Cas,NumV),veicoliSPInCaserma(Cas,NumvSp).

@@ -1,28 +1,14 @@
 import random as random
 from collections import defaultdict
 
-from pyswip import *
+from pyswip import Prolog
 from Intervation import Intervation
 from Classifier import classify
 
 
 def createKB():
     kb = Prolog()
-    for i in range(3):
-        kb.assertz("caserma(caserma_" + str(i+1) + ")")
-
-    kb.assertz("agenti(caserma_1, 5)")
-    kb.assertz("agenti(caserma_2, 10)")
-    kb.assertz("agenti(caserma_3, 20)")
-
-    kb.assertz("veicoli(caserma_1, 3)")
-    kb.assertz("veicoli(caserma_2, 7)")
-    kb.assertz("veicoli(caserma_3, 10)")
-
-    kb.assertz("veicoli_speciali(caserma_1, 0)")
-    kb.assertz("veicoli_speciali(caserma_2, 2)")
-    kb.assertz("veicoli_speciali(caserma_3, 5)")
-
+    kb.consult("kb.pl")
     return kb
 
 def createMap():
@@ -155,7 +141,7 @@ def determine_number_barracks(nameBarracks):
     return numBarack
 
 def determine_barrack(directed_weighted_graph, nameBarrack, intervation: Intervation):
-    distance = UCS(directed_weighted_graph, determine_number_barracks(nameBarrack), intervation.placeIntervention)
+    distance = UCS(directed_weighted_graph, nameBarrack, intervation.placeIntervention)
     if distance > intervation.getTimeLimit():
         print("La " + nameBarrack + " ha le truppe necessarie per eseguire l'intervento ma è troppo lontana dal punto")
     else:
@@ -226,18 +212,29 @@ if __name__ == '__main__':
     #Creazione dell'intervento in base alla classificazione dell'incidente
     intervation = Intervation(prediction, placeIncident)
     print("-----------Interrogazione Base di conoscenza-----------")
-    strQuery = "caserma(X), agenti(X,A), veicoli(X,B), veicoli_speciali(X,C), A>=" + str(
-        intervation.getNumAgent()) + ", B>=" + str(intervation.getNumVeihcles()) + ", C>=" + str(
-        intervation.getNumSpecialeVeihcles())
-    result = list(kb.query(strQuery))
+    strQueryCas1 = "caserma1Giusta("+str(intervation.getNumAgent())+","+\
+                   str(intervation.getNumVeihcles())+","+\
+                   str(intervation.getNumSpecialeVeihcles())+")."
+    resultCas1 = list(kb.query(strQueryCas1))
+    strQueryCas2 = "caserma2Giusta(" + str(intervation.getNumAgent()) + "," + \
+                   str(intervation.getNumVeihcles()) + "," + \
+                   str(intervation.getNumSpecialeVeihcles()) + ")."
+    strQueryCas3 = "caserma3Giusta(" + str(intervation.getNumAgent()) + "," +\
+                   str(intervation.getNumVeihcles()) + "," + \
+                   str(intervation.getNumSpecialeVeihcles()) + ")."
+    resultCas2 = list(kb.query(strQueryCas2))
+    resultCas3 = list(kb.query(strQueryCas3))
     print("-----------Visaulizzazione Risultati-----------")
-    if len(result) > 0:
-        print("Le caserme consigliate per intervenire sono: \n")
-
-        for item in result:
-            determine_barrack(directed_weighted_graph, item["X"], intervation)
-    else:
+    if len(resultCas1) == 0 and len(resultCas2) == 0 and len(resultCas3) == 0:
         print("Le caserme disponibili non hanno le risorse necessarie per riuscire a risolvere l'incidente da soli")
+    else:
+        print("Le caserme consigliate per intervenire sono: \n")
+        if len(resultCas1) > 0:
+            determine_barrack(directed_weighted_graph, 'Cas1', intervation)
+        if len(resultCas2) > 0:
+            determine_barrack(directed_weighted_graph, 'Cas2', intervation)
+        if len(resultCas3) > 0:
+            determine_barrack(directed_weighted_graph, 'Cas3', intervation)
     print("-----------------------------------------------")
     '''map = createMap()
     directed_weighted_graph = generateDirectedGraph(map)
