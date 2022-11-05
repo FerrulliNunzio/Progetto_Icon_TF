@@ -4,6 +4,7 @@ from collections import defaultdict
 from pyswip import Prolog
 from Intervation import Intervation
 from Classifier import classify
+from Classifier import cross_validation
 
 
 def createKB():
@@ -206,6 +207,7 @@ if __name__ == '__main__':
     event = createIncident(placeIncident)
     #Addestramento del classificatote e classificazione incidente
     try:
+        valutazione_classificatore = cross_validation("DataSet.csv")
         prediction = classify(event, "DataSet.csv")
     except FileNotFoundError:
         prediction = classify(event, "C:/Users/Utente/Desktop/Progetto_Icon_TF/DataSet.csv")   #da cancellare o modificare
@@ -236,11 +238,3 @@ if __name__ == '__main__':
         if len(resultCas3) > 0:
             determine_barrack(directed_weighted_graph, 'Cas3', intervation)
     print("-----------------------------------------------")
-    '''map = createMap()
-    directed_weighted_graph = generateDirectedGraph(map)
-    print(directed_weighted_graph)
-    shortest_path_cost, predecessor = dijkstra(directed_weighted_graph, 'A')
-    print("shortest_path_cost from node a to every nodes in graph:", shortest_path_cost, "\npredecessor dictionary:",
-          predecessor)
-    distance = UCS(directed_weighted_graph, 'Cas1', 'I')
-    print(distance)'''

@@ -1,7 +1,8 @@
+import numpy
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
-
+from sklearn.model_selection import cross_val_score
 
 # carico il dataset con path passato come stringa
 def importdata(dataset):
@@ -40,4 +41,21 @@ def classify(test, dataset):
     X, Y, X_train, X_test, y_train, y_test = set_training(data, test)
     clf_entropy = train_using_entropy(X_train, y_train)
     y_pred = prediction(X_test, clf_entropy)
-    return int(y_pred)
+    predict = numpy.round(y_pred, 0)
+    return int(predict)
+
+def cross_validation(dataset):
+    data = importdata("DataSet.csv")
+    X = data.values[:, 0:5]
+    Y = data.values[:, 5]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, Y, test_size=0.000001, random_state=0)
+
+    clf = DecisionTreeRegressor(
+        criterion="friedman_mse", random_state=0,
+        max_depth=4, max_features='sqrt')
+
+    score = cross_val_score(clf, X_train, y_train, cv=5)
+    accurancy = numpy.round(score.mean(),2)
+    deviation = numpy.round(score.std(),2)
