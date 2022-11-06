@@ -1,5 +1,6 @@
 import numpy
 import pandas as pd
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import cross_val_score
@@ -44,7 +45,7 @@ def classify(test, dataset):
     predict = numpy.round(y_pred, 0)
     return int(predict)
 
-def cross_validation(dataset):
+def cross_validation():
     data = importdata("DataSet.csv")
     X = data.values[:, 0:5]
     Y = data.values[:, 5]
@@ -59,3 +60,24 @@ def cross_validation(dataset):
     score = cross_val_score(clf, X_train, y_train, cv=5)
     accurancy = numpy.round(score.mean(),2)
     deviation = numpy.round(score.std(),2)
+
+def metrix_test():
+    data = importdata("DataSet.csv")
+    X = data.values[:, 0:5]
+    Y = data.values[:, 5]
+
+    X_train, X_test, y_train, y_test = \
+        train_test_split(X, Y, test_size=0.25)
+
+    clf = DecisionTreeRegressor(
+        criterion="friedman_mse", random_state=0,
+        max_depth=4, max_features='sqrt')
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_test, clf)
+
+    mean = mean_squared_error(y_test, y_pred)
+    score = r2_score(y_test, y_pred)
+
+def test():
+    cross_validation()
+    metrix_test()

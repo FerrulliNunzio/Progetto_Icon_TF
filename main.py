@@ -4,7 +4,7 @@ from collections import defaultdict
 from pyswip import Prolog
 from Intervation import Intervation
 from Classifier import classify
-from Classifier import cross_validation
+from Classifier import test
 
 
 def createKB():
@@ -207,7 +207,7 @@ if __name__ == '__main__':
     event = createIncident(placeIncident)
     #Addestramento del classificatote e classificazione incidente
     try:
-        valutazione_classificatore = cross_validation("DataSet.csv")
+        test()
         prediction = classify(event, "DataSet.csv")
     except FileNotFoundError:
         prediction = classify(event, "C:/Users/Utente/Desktop/Progetto_Icon_TF/DataSet.csv")   #da cancellare o modificare
